@@ -1,6 +1,6 @@
 {
   "name": "taurus-express-light",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A light-weight expressjs-like component.",
   "author": "Keisuke Yasuda <kyasuda2003@gmail.com>",
   "contributors": [

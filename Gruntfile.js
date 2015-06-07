@@ -74,6 +74,7 @@ module.exports = function (grunt) {
             };
         
         _ref('./Gruntfile.js',_ref1,true);
+	_ref('./test.js',_ref1,true);
         _ref('./LICENSE',_ref1,true);
         _ref('./README.md',_ref1,true);
         _ref('./index.js',_ref1,true);

@@ -79,7 +79,6 @@ module.exports = function (grunt) {
         _ref('./README.md',_ref1,true);
         _ref('./index.js',_ref1,true);
         _ref('./package.json',_ref1,true);
-	_ref('./logs',_ref1,false);
 
         var _ref4=exec('find . -name \'*.*~\' -type f -delete && npm publish ./build/'+pkg.version+'/', {}, function(err, stdout, stderr) {
             console.log('\nPublish taurus.');

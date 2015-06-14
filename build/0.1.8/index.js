@@ -104,6 +104,7 @@
 		    for (var obj in _get){
 			if (_get.hasOwnProperty(obj)&&
 			    (__ref1.pathname.indexOf(obj)==0)){
+			    console.log('get called.');
 			    return _ref(_get[obj],1,_req,_res);
 			}
 		    }

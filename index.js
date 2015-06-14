@@ -10,6 +10,7 @@
 	_pkg=require('./package.json'),
         _post={},
 	_get={},
+	_arg=null,
 	_static={},
         _ref=function(obj, num, req, res){
             var __req=req,__res=res,__m_arr=obj,__num=num;
@@ -21,6 +22,71 @@
                         &&(_ref(__m_arr,__num+1,__req,__res));
             });
         },
+	_core=function(req,res){
+	    var _req=req,_res=res,_m_arr=[],__ref1=_url.parse(_req.url);
+		
+	    _log("\nRequest: "+__ref1.pathname);
+	    
+	    _arg&&_ref(_arg, 0, _req, _res);
+		
+	    if (_req.method.toLowerCase()=='post'){
+                    
+		_req.on('data', function(chunk) {
+		    var __body;
+			
+			        
+		    try {
+			__body=JSON.parse(chunk);
+		    }
+		    catch(e){
+			_log('http body parsing error: '+e);
+			res.writeHead(501, { "Content-Type": "application/json" });
+			return res.end(JSON.stringify({status:'Invalid body.'}));
+		    }
+
+		    req.body=__body;
+		    for (var obj in _post){
+			if (_post.hasOwnProperty(obj)&&
+			    (__ref1.pathname.indexOf(obj)==0)){
+			    
+			    return _ref(_post[obj], 1, _req, _res);
+			}
+		    }
+
+			
+                });
+                    
+            }
+
+	    if (_req.method.toLowerCase()=='get'){
+
+		for (var obj in _static){
+		    if (_static.hasOwnProperty(obj)&&
+			(__ref1.pathname.indexOf(obj)==0)){
+			var namepath=__ref1.pathname.substring(obj.length);
+			return _fs.readFile(_static[obj]+'/'+namepath, function (err,data) {
+			    if (err) {
+				res.writeHead(404);
+				_log('GET file error: '+JSON.stringify(err));
+				return res.end(JSON.stringify({status:'Invalid file.'}));
+			    }
+			    res.writeHead(200);
+			    return res.end(data);
+			});
+		    }
+		}
+
+		for (var obj in _get){
+		    if (_get.hasOwnProperty(obj)&&
+			(__ref1.pathname.indexOf(obj)==0)){
+			return _ref(_get[obj],1,_req,_res);
+		    }
+		}
+		    
+	    }
+                
+            
+	},
 	_msg={logs:{},logfile:_pkg.name+'_'+new Date().toJSON()+'.log'},
 	_log=function(msg){
 	    var now=new Date().toJSON();
@@ -30,10 +96,13 @@
 	        console.log(now+': '+msg);
 	    });
 	    
-	};
+	};           
     
- 
     module.exports={
+	pre:function(){
+	    _arg=Array.prototype.slice.call(arguments);
+	    
+	},
         post:function(){
             var _ref = Array.prototype.slice.call(arguments);
 	    
@@ -68,68 +137,7 @@
 	},
 	listen:function(port){
 
-            _http.createServer(function (req, res) {
-		var _req=req,_res=res,_m_arr=[],__ref1=_url.parse(_req.url);
-		
-		console.log("\nrequest: "+__ref1.pathname);
-
-                if (_req.method.toLowerCase()=='post'){
-                    
-                    _req.on('data', function(chunk) {
-			var __body;
-			
-			        
-			try {
-			    __body=JSON.parse(chunk);
-			}
-			catch(e){
-			    _log('http body parsing error: '+e);
-			    res.writeHead(501, { "Content-Type": "application/json" });
-			    return res.end(JSON.stringify({status:'Invalid body.'}));
-			}
-
-                        req.body=__body;
-                        for (var obj in _post){
-			    if (_post.hasOwnProperty(obj)&&
-                                (__ref1.pathname.indexOf(obj)==0)){
-                
-			        return _ref(_post[obj], 1, _req, _res);
-                            }
-                        }
-
-			
-                    });
-                    
-                }
-
-		if (_req.method.toLowerCase()=='get'){
-
-		    for (var obj in _static){
-			if (_static.hasOwnProperty(obj)&&
-			    (__ref1.pathname.indexOf(obj)==0)){
-			    var namepath=__ref1.pathname.substring(obj.length);
-			    return _fs.readFile(_static[obj]+'/'+namepath, function (err,data) {
-				if (err) {
-				    res.writeHead(404);
-				    _log('GET file error: '+JSON.stringify(err));
-				    return res.end(JSON.stringify({status:'Invalid file.'}));
-				}
-				res.writeHead(200);
-				return res.end(data);
-			    });
-			}
-		    }
-
-		    for (var obj in _get){
-			if (_get.hasOwnProperty(obj)&&
-			    (__ref1.pathname.indexOf(obj)==0)){
-			    return _ref(_get[obj],1,_req,_res);
-			}
-		    }
-		    
-		}
-                
-            }).listen(port); 
+            _http.createServer(_core).listen(port); 
         }
     };
 

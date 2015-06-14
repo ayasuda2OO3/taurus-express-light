@@ -36,12 +36,31 @@
     module.exports={
         post:function(){
             var _ref = Array.prototype.slice.call(arguments);
-            _post[_ref[0]]=_ref;
+	    
+	    if (_ref[0].constructor==Array){
+		for (var x in _ref[0]){
+		    _post[_ref[0][x]]=_ref;
+		}
+	    }
+	    else
+		_post[_ref[0]]=_ref;
+
+	    return;
             
         },
 	get:function(){
 	    var _ref = Array.prototype.slice.call(arguments);
-            _get[_ref[0]]=_ref;
+
+	    if (_ref[0].constructor==Array){
+		for (var x in _ref[0]){
+		    _get[_ref[0][x]]=_ref;
+		}
+	    }
+	    else
+		_get[_ref[0]]=_ref;
+
+	    return;
+
 	},
 	static:function(urlpath, abspath){
 	    _static[urlpath]=_path.resolve(abspath);

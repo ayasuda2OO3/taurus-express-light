@@ -9,7 +9,6 @@
 	_url=require('url'),
 	_pkg=require('./package.json'),
         _post={},
-	_get={},
 	_static={},
         _ref=function(obj, num, req, res){
             var __req=req,__res=res,__m_arr=obj,__num=num;
@@ -17,7 +16,7 @@
                 if (typeof __m_arr[__num+1]=='undefined')
                     return;
                     
-		return __m_arr[__num+1]
+                __m_arr[__num+1]
                         &&(_ref(__m_arr,__num+1,__req,__res));
             });
         },
@@ -28,7 +27,7 @@
 	    
 	    _fs.writeFile(__dirname+'/logs/'+_msg.logfile,JSON.stringify(_msg,null,4),function(){
 	        console.log(now+': '+msg);
-	    });
+	    })
 	    
 	};
     
@@ -39,15 +38,11 @@
             _post[_ref[0]]=_ref;
             
         },
-	get:function(){
-	    var _ref = Array.prototype.slice.call(arguments);
-            _get[_ref[0]]=_ref;
-	},
 	static:function(urlpath, abspath){
 	    _static[urlpath]=_path.resolve(abspath);
 	    
 	},
-	listen:function(port){
+        listen:function(port){
 
             _http.createServer(function (req, res) {
 		var _req=req,_res=res,_m_arr=[],__ref1=_url.parse(_req.url);
@@ -72,7 +67,7 @@
                         req.body=__body;
                         for (var obj in _post){
 			    if (_post.hasOwnProperty(obj)&&
-                                (__ref1.pathname.indexOf(obj)==0)){
+                                (obj.indexOf(__ref1.pathname)>-1)){
                 
 			        return _ref(_post[obj], 1, _req, _res);
                             }
@@ -98,14 +93,6 @@
 				res.writeHead(200);
 				return res.end(data);
 			    });
-			}
-		    }
-
-		    for (var obj in _get){
-			if (_get.hasOwnProperty(obj)&&
-			    (__ref1.pathname.indexOf(obj)==0)){
-			    console.log('get called.');
-			    return _ref(_get[obj],1,_req,_res);
 			}
 		    }
 		    

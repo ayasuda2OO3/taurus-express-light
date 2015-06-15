@@ -11,7 +11,6 @@
         _post={},
 	_get={},
 	_arg=null,
-	_apppath='',    
 	_static={},
         _ref=function(obj, num, req, res){
             var __req=req,__res=res,__m_arr=obj,__num=num;
@@ -52,12 +51,8 @@
 			    
 			    return _ref(_post[obj], 1, _req, _res);
 			}
-
 		    }
-		    
-		    res.writeHeader(404);
-		    _log('No matching path set.');
-		    return res.end(JSON.stringify({status:'Invalid path.'}));
+
 			
                 });
                     
@@ -87,10 +82,6 @@
 			return _ref(_get[obj],1,_req,_res);
 		    }
 		}
-		
-		res.writeHeader(404);
-		_log('No matching path set.');
-		return res.end(JSON.stringify({status:'Invalid path.'}));
 		    
 	    }
                 
@@ -109,25 +100,19 @@
     
     module.exports={
 	pre:function(){
-	    return _arg=Array.prototype.slice.call(arguments);
+	    _arg=Array.prototype.slice.call(arguments);
 	    
-	},
-	path:function(apppath){
-	    if (apppath.match(/^\/\w+/).length>0)
-		_apppath=apppath;
-
-	    return;
 	},
         post:function(){
             var _ref = Array.prototype.slice.call(arguments);
 	    
 	    if (_ref[0].constructor==Array){
 		for (var x in _ref[0]){
-		    _post[_apppath+_ref[0][x]]=_ref;
+		    _post[_ref[0][x]]=_ref;
 		}
 	    }
 	    else
-		_post[_apppath+_ref[0]]=_ref;
+		_post[_ref[0]]=_ref;
 
 	    return;
             
@@ -137,25 +122,22 @@
 
 	    if (_ref[0].constructor==Array){
 		for (var x in _ref[0]){
-		    _get[_apppath+_ref[0][x]]=_ref;
+		    _get[_ref[0][x]]=_ref;
 		}
 	    }
 	    else
-		_get[_apppath+_ref[0]]=_ref;
+		_get[_ref[0]]=_ref;
 
 	    return;
 
 	},
 	static:function(urlpath, abspath){
-	    
-	    return _static[_apppath+urlpath]=_path.resolve(abspath);
+	    _static[urlpath]=_path.resolve(abspath);
 	    
 	},
 	listen:function(port){
 
-            return _http.createServer(_core).listen(port); 
-
-	    
+            _http.createServer(_core).listen(port); 
         }
     };
 

@@ -8,7 +8,6 @@
 	_fs=require('fs'),
 	_url=require('url'),
 	_pkg=require('./package.json'),
-        _path=require('path');
         _post={},
 	_get={},
 	_arg=null,

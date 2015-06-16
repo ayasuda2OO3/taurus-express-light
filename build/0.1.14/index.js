@@ -66,13 +66,6 @@
 
 	    if (_req.method.toLowerCase()=='get'){
 
-		for (var obj in _get){
-		    if (_get.hasOwnProperty(obj)&&
-			(__ref1.pathname.indexOf(obj)==0)){
-			return _ref(_get[obj],1,_req,_res);
-		    }
-		}
-		
 		for (var obj in _static){
 		    if (_static.hasOwnProperty(obj)&&
 			(__ref1.pathname.indexOf(obj)==0)){
@@ -89,6 +82,13 @@
 		    }
 		}
 
+		for (var obj in _get){
+		    if (_get.hasOwnProperty(obj)&&
+			(__ref1.pathname.indexOf(obj)==0)){
+			return _ref(_get[obj],1,_req,_res);
+		    }
+		}
+		
 		res.writeHeader(404);
 		_log('No matching path set.');
 		return res.end(JSON.stringify({status:'Invalid path.'}));

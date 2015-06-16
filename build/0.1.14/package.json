@@ -1,0 +1,51 @@
+{
+  "name": "taurus-express-light",
+  "version": "0.1.14",
+  "description": "A light-weight expressjs-like component.",
+  "author": "Keisuke Yasuda <kyasuda2003@gmail.com>",
+  "contributors": [
+    {
+      "name": "安田圭介",
+      "email": "kyasuda2003@gmail.com"
+    }
+  ],
+  "scripts": {
+    "test": "grunt test",
+    "start": "grunt start",
+    "predeploy": "echo im about to deploy",
+    "postdeploy": "echo ive deployed",
+    "prepublish": "echo prepublish",
+    "preinstall": ""
+  },
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kyasuda2003/taurus-express-light.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kyasuda2003/taurus-express-light/issues",
+    "email": "kyasuda2003@gmail.com"
+  },
+  "keywords": [
+    "nodejs",
+    "tau",
+    "taurus",
+    "express",
+    "http",
+    "node",
+    "expressjs"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13"
+  },
+  "preferGlobal": false,
+  "publishConfig": {},
+  "subdomain": "service",
+  "analyze": true,
+  "engines": {
+    "node": "^0.10.28"
+  },
+  "license": "MIT"
+}

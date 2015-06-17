@@ -114,7 +114,7 @@
 	    
 	},
 	path:function(apppath){
-	    if (apppath.match(/^\/\w+/)!=null)
+	    if (apppath.match(/^\/\w+/).length>0)
 		_apppath=apppath;
 
 	    return;

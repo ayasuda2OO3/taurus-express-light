@@ -152,10 +152,16 @@
 	    return _static[_apppath+urlpath]=_path.resolve(abspath);
 	    
 	},
+	info:function(){
+	    return {static:_static,
+		    post:_post,
+		    get:_get,
+		    path:_apppath,
+		    pre: _arg};
+	},
 	listen:function(port){
-
-            return _http.createServer(_core).listen(port); 
-
+	    
+            return _http.createServer(_core).listen(port);
 	    
         }
     };

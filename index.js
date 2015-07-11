@@ -166,8 +166,8 @@
 		_ge[key]=_ref.substring(0,_ref.indexOf(')')+1);
 	    });
 
-	    _arg.forEach(function(ind){
-		var _ref=_arg[ind].toString();
+	    _arg.forEach(function(obj){
+		var _ref=obj.toString();
 		_pr.push(_ref.substring(0,_ref.indexOf(')')));
 	    });
 	    

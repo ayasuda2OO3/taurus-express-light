@@ -168,7 +168,7 @@
 
 	    _arg.forEach(function(obj){
 		var _ref=obj.toString();
-		_pr.push(_ref.substring(0,_ref.indexOf(')')));
+		_pr.push(_ref.substring(0,_ref.indexOf(')')+1));
 	    });
 	    
 	    return {static:_static,

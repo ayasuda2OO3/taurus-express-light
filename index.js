@@ -11,7 +11,8 @@
         _path=require('path');
         _post={},
 	_get={},
-	_arg=null,
+	_arg=[],
+        _port=3131,
 	_apppath='',    
 	_static={},
         _ref=function(obj, num, req, res){
@@ -153,20 +154,39 @@
 	    
 	},
 	info:function(){
+	    var _po={},_ge={},_pr=[];
+
+	    Object.keys(_post).forEach(function(key){
+		var _ref=_post[key][1].toString();
+		_po[key]= _ref.substring(0,_ref.indexOf(')')+1);
+	    });
+
+	    Object.keys(_get).forEach(function(key){
+		var _ref=_get[key][1].toString();
+		_ge[key]=_ref.substring(0,_ref.indexOf(')')+1);
+	    });
+
+	    _arg.forEach(function(ind){
+		var _ref=_arg[ind].toString();
+		_pr.push(_ref.substring(0,_ref.indexOf(')')));
+	    });
 	    
 	    return {static:_static,
-		    post:_post,
-		    get:_get,
-		    path:'',
-		    pre: _pre};
+		    post:_po,
+		    get:_ge,
+		    path:_apppath,
+		    pre: _pr,
+		    port: _port};
 	    
 	    
 	},
 	listen:function(port){
-	    
-            return _http.createServer(_core).listen(port);
+	    _port=port;
+            return _http.createServer(_core).listen(_port);
 	    
         }
     };
 
 })();
+
+

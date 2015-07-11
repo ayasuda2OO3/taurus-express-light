@@ -153,11 +153,14 @@
 	    
 	},
 	info:function(){
+	    
 	    return {static:_static,
 		    post:_post,
 		    get:_get,
-		    path:_apppath,
-		    pre: _arg};
+		    path:'',
+		    pre: _pre};
+	    
+	    
 	},
 	listen:function(port){
 	    

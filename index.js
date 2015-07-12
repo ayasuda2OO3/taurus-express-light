@@ -16,8 +16,9 @@
 	_apppath='',    
 	_static={},
         _ref=function(obj, num, req, res){
+	    debugger;
             var __req=req,__res=res,__m_arr=obj,__num=num;
-            __m_arr[__num](__req, __res, function(){
+            __m_arr&&__m_arr[__num]&&__m_arr[__num](__req, __res, function(){
                 if (typeof __m_arr[__num+1]=='undefined')
                     return;
                     
@@ -27,17 +28,18 @@
         },
 	_core=function(req,res){
 	    var _req=req,_res=res,_m_arr=[],__ref1=_url.parse(_req.url);
-		
+	    
 	    _log("\nRequest: "+__ref1.pathname);
 	    
 	    _arg&&_ref(_arg, 0, _req, _res);
-		
+	    
+	    debugger;
+	    
 	    if (_req.method.toLowerCase()=='post'){
-                    
+                
 		_req.on('data', function(chunk) {
 		    var __body;
-			
-			        
+		    
 		    try {
 			__body=JSON.parse(chunk);
 		    }
@@ -177,7 +179,6 @@
 		    path:_apppath,
 		    pre: _pr,
 		    port: _port};
-	    
 	    
 	},
 	listen:function(port){

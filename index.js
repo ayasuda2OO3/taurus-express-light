@@ -13,7 +13,8 @@
 	_get={},
 	_arg=[],
         _port=3131,
-	_apppath='',    
+	_apppath='',
+	_indexFile='index.html',
 	_static={},
         _ref=function(obj, num, req, res){
 	    debugger;
@@ -79,7 +80,7 @@
 		for (var obj in _static){
 		    if (_static.hasOwnProperty(obj)&&
 			(__ref1.pathname.indexOf(obj)==0)){
-			var namepath=__ref1.pathname.substring(obj.length);
+			var namepath=(__ref1.pathname.substring(obj.length)||_indexFile);
 			return _fs.readFile(_static[obj]+'/'+namepath, function (err,data) {
 			    if (err) {
 				res.writeHead(404);
@@ -112,6 +113,10 @@
 	};           
     
     module.exports={
+    	index:function(indfile){
+    	    _indexFile=indfile;
+    	    return;	
+    	},
 	pre:function(){
 	    return _arg=Array.prototype.slice.call(arguments);
 	    

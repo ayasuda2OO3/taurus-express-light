@@ -38,11 +38,17 @@
 	    
 	    if (_req.method.toLowerCase()=='post'){
                 
-		_req.on('data', function(chunk) {
+		var _chunk='';
+		_req.on('data',function(chunk){
+		    _chunk+=chunk;
+		});
+		
+		_req.on('end', function() {
+		    //console.log(chunk);
 		    var __body;
 		    
 		    try {
-			__body=JSON.parse(chunk);
+			__body=JSON.parse(_chunk);
 		    }
 		    catch(e){
 			_log('http body parsing error: '+e);

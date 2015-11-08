@@ -107,13 +107,13 @@
                 
             
 	},
+	__msg={logs:{},logfile:_pkg.name+'_'+new Date().toJSON()+'.log'},
 	_log=function(msg){
-	    var now=new Date().toJSON(),
-	        _msg={logs:{},logfile:_pkg.name+'_'+new Date().toJSON()+'.log'};
+	    var now=new Date().toJSON();
 	        
-	    _msg.logs[now]=msg;
+	    __msg.logs[now]=msg;
 	    
-	    _fs.writeFile(__dirname+'/logs/'+_msg.logfile,JSON.stringify(_msg,null,4),function(){
+	    _fs.writeFile(__dirname+'/logs/'+__msg.logfile,JSON.stringify(__msg,null,4),function(){
 	        console.log(now+': '+msg);
 	    });
 	    

@@ -67,9 +67,17 @@ module.exports=(function(){
 		    }
 
 		    else if (_req.headers['content-type'].indexOf('multipart/form-data')>-1){
-			console.log('enter multipart/form-data');
-			var busboy = new _busboy({headers:_req.headers}),_body={files:[]};
-	
+			
+			var busboy,_body={files:[]};
+
+			try {
+			    busboy=new _busboy({headers:_req.headers})
+			}
+			catch(e){
+			    console.log(e);
+			    return reje({code:501,desc:e});
+			}
+
 			busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
 			    var _file=new _stream.Readable();
 

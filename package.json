@@ -35,7 +35,9 @@
     "node",
     "expressjs"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "busboy":"^0.2.12"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13"
@@ -45,7 +47,7 @@
   "subdomain": "service",
   "analyze": true,
   "engines": {
-    "node": "^0.10.28"
+    "node": "^5.0.0"
   },
   "license": "MIT"
 }

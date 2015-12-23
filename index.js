@@ -68,7 +68,8 @@ module.exports=(function(){
 
 		    else if (_req.headers['content-type'].indexOf('multipart/form-data')>-1){
 			
-			var busboy,_body={files:[]};
+			var busboy,
+			    _body={files:[]};
 
 			try {
 			    busboy=new _busboy({headers:_req.headers})
@@ -77,23 +78,32 @@ module.exports=(function(){
 			    console.log(e);
 			    return reje({code:501,desc:e});
 			}
-
+			
+			console.log('enter multipart/form-data');
+			
 			busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-			    var _file=new _stream.Readable();
+			    
+			    var Readable = _stream.Readable,
+				_str=new Readable(),
+				_size=0;
+			    
 
 			    console.log('get file: '+filename);
 
-			    _file._read=function(){};
-
+			    _str._read=function(){};
+			    
 			    file.on('data',function(data){
-				_file.push(data);
+				_str.push(data);
+				_size+=data.length;
 			    });
 
 			    file.on('end',function(){
-				_file.push(null);
+				_str.push(null);
+				console.log('file reading ended.');
 				_body.files.push({fileName:filename,
-						  fileStream:_file,
+						  fileStream:_str,
 						  encoding:encoding,
+						  fileSize:_size,
 						  mimeType:mimetype});
 
 			    });
@@ -125,18 +135,20 @@ module.exports=(function(){
 			for (var obj in _post){
 
 			    //next to do: pathname matching technique
+			    console.log('search for path through the _post');
+			    console.log(_post);
 			    if (_post.hasOwnProperty(obj)&&
 				(__ref1.pathname.indexOf(obj)==0)){
-
-				_ref(_post[obj], 1, _req, _res);
-				return reso(true);
+				console.log('proceed to resolve.');
+				return reso(_post[obj]);
 			    }
 			}
 			return reje({code:404,desc:'Invalid path. No matching path set.'});
 			
 		    });
-		}).then(function(val){
-		    console.log('successful pass to the next context.')
+		}).then(function(obj){
+		    console.log('successful pass to the next context.');
+		    _ref(obj, 1, _req, _res);
 		}).catch(function(err){
 		    _res.writeHeader(err.code);
 		    _res.end(JSON.stringify(err.desc));
